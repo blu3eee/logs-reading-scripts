@@ -21,7 +21,7 @@ fi
 MYSQL_CONTAINER_ID=$(docker ps | grep mysql | awk '{print $1}')
 
 # Import the SQL file into the MySQL container
-if docker exec -i "$MYSQL_CONTAINER_ID" mysql -u "$MYSQL_DB_USERNAME" -p"$MYSQL_DB_PASSWORD" "$1" < "$1.sql"; then
+if docker exec -i "$MYSQL_CONTAINER_ID" mysql -u "$MYSQL_DB_USERNAME" -p"$MYSQL_DB_PASSWORD" "$1" --set-gtid-purged=OFF < "$1.sql"; then
     echo "Database '$1' imported successfully."
 else
     echo "Error importing database '$1'."
