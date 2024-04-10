@@ -12,6 +12,6 @@ if [ -z "$1" ]; then
 fi
 
 # Export the specified MySQL database
-mysqldump -h "$MYSQL_DB_HOST" -u "$MYSQL_DB_USERNAME" -p"$MYSQL_DB_PASSWORD" --port="$MYSQL_DB_PORT" "$1" > "$1".sql
+mysqldump -h "$MYSQL_DB_HOST" -u "$MYSQL_DB_USERNAME" -p"$MYSQL_DB_PASSWORD" --port="$MYSQL_DB_PORT" "$1" --set-gtid-purged=OFF > "$1".sql
 
 echo "Database '$1' exported to $1.sql"
