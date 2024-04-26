@@ -16,6 +16,14 @@ usage() {
     exit 1
 }
 
+# Load environment variables from .env file
+if [ -f ".env" ]; then
+    source .env
+fi
+
+# Set LOG_DIR_BASE to default if not defined
+LOG_DIR_BASE="${LOG_DIR_BASE:-/home/admin/logs}"
+
 # Parse command-line arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -35,14 +43,20 @@ while [[ "$#" -gt 0 ]]; do
             FIND="$2"
             shift 2
             ;;
+        -b|--base-dir)
+            USER_BASE_DIR="$2"
+            shift 2
+            ;;
         *)
             usage
             ;;
     esac
 done
 
-# Define log directory base path
-LOG_DIR_BASE="/home/admin/logs"
+# Override LOG_DIR_BASE if user specifies a base directory
+if [[ -n "$USER_BASE_DIR" ]]; then
+    LOG_DIR_BASE="$USER_BASE_DIR"
+fi
 
 # Check target directory
 if [[ -z "$TARGET" ]]; then
